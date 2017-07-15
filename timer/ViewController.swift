@@ -14,14 +14,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     
     // タイマー用の時間の変数
+    var timer : Timer!
     var timer_sec :Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        // タイマーの作成・始動
-        Timer.scheduledTimer(timeInterval:0.1, target:self,selector: #selector(updateTimer),userInfo: nil, repeats: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,19 +31,27 @@ class ViewController: UIViewController {
     // timeOnterval: 0.1, repeats: true で指定された通り、0.1秒ごとに呼び出され続ける
     func updateTimer(timer: Timer) {
         self.timer_sec += 0.1
-        self.timerLabel.text = String(format: "%.2f", timer_sec)
+        self.timerLabel.text = String(format: "%.1f", timer_sec)
     }
     
     // 再生ボタン
     @IBAction func startTimer(_ sender: Any) {
+        if self.timer == nil {
+            self.timer = Timer.scheduledTimer(timeInterval:0.1, target:self,selector: #selector(updateTimer),userInfo: nil, repeats: true)
+        }
     }
     
     // 一時停止ボタン
     @IBAction func pauseTimer(_ sender: Any) {
+        if self.timer != nil {
+            self.timer.invalidate()
+        }
+        self.timer = nil
     }
     
     // リセットボタン
     @IBAction func resetTimer(_ sender: Any) {
+        self.timer_sec = 0
+        self.timerLabel.text = String(format: "%.1f", timer_sec)
     }
 }
-
