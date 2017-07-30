@@ -45,13 +45,14 @@ class ViewController: UIViewController {
     @IBAction func pauseTimer(_ sender: Any) {
         if self.timer != nil {
             self.timer.invalidate()
+            self.timer = nil
         }
-        self.timer = nil
     }
     
     // リセットボタン
     @IBAction func resetTimer(_ sender: Any) {
         self.timer_sec = 0
         self.timerLabel.text = String(format: "%.1f", timer_sec)
+        self.timer = nil
     }
 }
